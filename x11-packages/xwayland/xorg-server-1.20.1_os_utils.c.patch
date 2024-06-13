@@ -1,6 +1,7 @@
---- a/os/utils.c
-+++ b/os/utils.c
-@@ -227,7 +227,7 @@ OsSignal(int sig, OsSigHandlerPtr handler)
+diff -uNr xorg-server-1.20.1/os/utils.c xorg-server-1.20.1.mod/os/utils.c
+--- xorg-server-1.20.1/os/utils.c	2018-08-07 19:31:05.000000000 +0300
++++ xorg-server-1.20.1.mod/os/utils.c	2018-10-08 21:07:16.844266287 +0300
+@@ -228,7 +228,7 @@
   * server at a time.  This keeps the servers from stomping on each other
   * if the user forgets to give them different display numbers.
   */
@@ -9,7 +10,7 @@
  #define LOCK_TMP_PREFIX "/.tX"
  #define LOCK_PREFIX "/.X"
  #define LOCK_SUFFIX "-lock"
-@@ -319,7 +319,7 @@ LockServer(void)
+@@ -320,7 +320,7 @@
      i = 0;
      haslock = 0;
      while ((!haslock) && (i++ < 3)) {
@@ -18,7 +19,20 @@
          if (haslock) {
              /*
               * We're done.
-@@ -1343,10 +1343,6 @@ Popen(const char *command, const char *type)
+@@ -1383,11 +1383,7 @@
+         p = -1;
+         break;
+     case 0:                    /* child */
+-        if (setgid(getgid()) == -1)
+-            _exit(127);
+-        if (setuid(getuid()) == -1)
+-            _exit(127);
+-        execl("/bin/sh", "sh", "-c", command, (char *) NULL);
++        execl("@TERMUX_PREFIX@/bin/sh", "sh", "-c", command, (char *) NULL);
+         _exit(127);
+     default:                   /* parent */
+         do {
+@@ -1453,10 +1449,6 @@
  #endif
          return NULL;
      case 0:                    /* child */
@@ -29,7 +43,7 @@
          if (*type == 'r') {
              if (pdes[1] != 1) {
                  /* stdout */
-@@ -1363,7 +1359,7 @@ Popen(const char *command, const char *type)
+@@ -1473,7 +1465,7 @@
              }
              close(pdes[1]);
          }
@@ -38,10 +52,21 @@
          _exit(127);
      }
  
-@@ -1395,20 +1391,7 @@ void *
- Fopen(const char *file, const char *type)
- {
-     FILE *iop;
+@@ -1531,10 +1523,6 @@
+         free(cur);
+         return NULL;
+     case 0:                    /* child */
+-        if (setgid(getgid()) == -1)
+-            _exit(127);
+-        if (setuid(getuid()) == -1)
+-            _exit(127);
+         if (*type == 'r') {
+             if (pdes[1] != 1) {
+                 /* stdout */
+@@ -1577,20 +1565,7 @@
+ 
+     return iop;
+ #else
 -    int ruid, euid;
 -
 -    ruid = getuid();
@@ -57,9 +82,9 @@
 -        return NULL;
 -    }
      return iop;
+ #endif                          /* HAS_SAVED_IDS_AND_SETEUID */
  }
- 
-@@ -1483,7 +1466,7 @@ Win32TempDir(void)
+@@ -1670,7 +1645,7 @@
      else if (getenv("TMP") != NULL)
          return getenv("TMP");
      else
@@ -68,7 +93,7 @@
  }
  
  int
-@@ -1533,64 +1516,7 @@ System(const char *cmdline)
+@@ -1722,64 +1697,7 @@
  Bool
  PrivsElevated(void)
  {
