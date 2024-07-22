@@ -17,11 +17,10 @@ TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 -Dopengl=false
 -Dllvm=disabled
 -Dshared-llvm=disabled
--Dplatforms=x11,wayland
+-Dplatforms=x11
 -Dgallium-drivers=
 -Dxmlconfig=disabled
--Dvulkan-drivers=freedreno,virtio
--Dfreedreno-kmds=msm,kgsl
+-Dvulkan-drivers=virtio
 "
 
 TERMUX_PKG_BLACKLISTED_ARCHES="i686, x86_64"
