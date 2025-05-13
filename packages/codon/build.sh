@@ -4,13 +4,18 @@ TERMUX_PKG_LICENSE="Apache-2.0"
 TERMUX_PKG_LICENSE_FILE="LICENSE"
 TERMUX_PKG_MAINTAINER="@termux"
 _LLVM_COMMIT=c5a1d86495d28ab045258f120a8e2c9f3ef67a3b
-TERMUX_PKG_VERSION=0.18.0
-TERMUX_PKG_SRCURL=(https://github.com/exaloop/codon/archive/refs/tags/v$TERMUX_PKG_VERSION.tar.gz
-					https://github.com/exaloop/codon/releases/download/v$TERMUX_PKG_VERSION/codon-linux-x86_64.tar.gz
-					https://github.com/exaloop/llvm-project/archive/${_LLVM_COMMIT}.zip)
-TERMUX_PKG_SHA256=(98f676b8de9dd98a5666555265d6f344b68503628e4c07f296937b01d4c81835
-					6d65e8395f715adb9b3d528ab868cd0b0b823fff2f3bcf2b07b8b62629ccd224
-					db37e218bb62b261f9debb4bb526a4abb37af8ac9a7973099c6d9a99a3e424c6)
+TERMUX_PKG_VERSION="0.18.2"
+TERMUX_PKG_REVISION=1
+TERMUX_PKG_SRCURL=(
+	https://github.com/exaloop/codon/archive/refs/tags/v$TERMUX_PKG_VERSION.tar.gz
+	https://github.com/exaloop/codon/releases/download/v$TERMUX_PKG_VERSION/codon-linux-x86_64.tar.gz
+	https://github.com/exaloop/llvm-project/archive/${_LLVM_COMMIT}.zip
+)
+TERMUX_PKG_SHA256=(
+	ca61e0aa9d0a1f52e2a4e23d1fc94dca56da38411312e6d0fd4aa327f80c3e4b
+	74b501e7037b45563daa4857ec132c989eca011515904d59e8bb02f4bd8f81d2
+	db37e218bb62b261f9debb4bb526a4abb37af8ac9a7973099c6d9a99a3e424c6
+)
 TERMUX_PKG_DEPENDS="libc++, libxml2, zlib, zstd"
 TERMUX_PKG_NO_STATICSPLIT=true
 TERMUX_PKG_HOSTBUILD=true
@@ -49,7 +54,7 @@ TERMUX_PKG_NO_OPENMP_CHECK=true
 # On ARM and i686, codon crashes:
 # JIT session error: Unsupported target machine architecture in ELF object codon-jitted-objectbuffer
 # Failure value returned from cantFail wrapped call
-TERMUX_PKG_BLACKLISTED_ARCHES="arm, i686"
+TERMUX_PKG_EXCLUDED_ARCHES="arm, i686"
 
 termux_step_post_get_source() {
 	# Check llvm commit

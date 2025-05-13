@@ -2,11 +2,12 @@ TERMUX_PKG_HOMEPAGE=https://github.com/jesseduffield/lazygit
 TERMUX_PKG_DESCRIPTION="Simple terminal UI for git commands"
 TERMUX_PKG_LICENSE="MIT"
 TERMUX_PKG_MAINTAINER="Krishna kanhaiya @kcubeterm"
-TERMUX_PKG_VERSION="0.45.2"
+TERMUX_PKG_VERSION="0.50.0"
 TERMUX_PKG_SRCURL=https://github.com/jesseduffield/lazygit/archive/v${TERMUX_PKG_VERSION}.tar.gz
-TERMUX_PKG_SHA256=dd3d6645ee429f0c554338c1fdb940733793ad915ae72653132664aa7c26bbcb
+TERMUX_PKG_SHA256=4fec66f33609898dbceffc02a38375f5b965b68d0eaf3f5afbe1a44481a5c72b
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_RECOMMENDS=git
+TERMUX_PKG_SUGGESTS=diff-so-fancy
 
 termux_step_make() {
 	termux_setup_golang

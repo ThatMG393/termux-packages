@@ -2,13 +2,14 @@ TERMUX_PKG_HOMEPAGE=http://www.xmlsoft.org
 TERMUX_PKG_DESCRIPTION="Library for parsing XML documents"
 TERMUX_PKG_LICENSE="MIT"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="2.13.5"
-_MAJOR_VERSION="${TERMUX_PKG_VERSION%.*}"
-TERMUX_PKG_SRCURL=https://download.gnome.org/sources/libxml2/${_MAJOR_VERSION}/libxml2-${TERMUX_PKG_VERSION}.tar.xz
-TERMUX_PKG_SHA256=74fc163217a3964257d3be39af943e08861263c4231f9ef5b496b6f6d4c7b2b6
+TERMUX_PKG_VERSION="2.14.2"
+TERMUX_PKG_REVISION=1
+TERMUX_PKG_SRCURL=https://download.gnome.org/sources/libxml2/${TERMUX_PKG_VERSION%.*}/libxml2-${TERMUX_PKG_VERSION}.tar.xz
+TERMUX_PKG_SHA256=353f3c83535d4224a4e5f1e88c90b5d4563ea8fec11f6407df640fd28fc8b8c6
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_SETUP_PYTHON=true
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
+--with-http
 --with-legacy
 --with-python
 "
@@ -30,8 +31,10 @@ termux_step_post_massage() {
 		termux_error_exit "SONAME for libxml2.so is not properly set."
 	fi
 
-	local _GUARD_FILE="lib/libxml2.so.2"
-	if [ ! -e "${_GUARD_FILE}" ]; then
-		termux_error_exit "Error: file ${_GUARD_FILE} not found."
+	local _SOVERSION=16
+	if [[ ! -e "lib/libxml2.so.${_SOVERSION}" ]]; then
+		echo "ERROR - Expected: lib/libxml2.so.${_SOVERSION}" >&2
+		echo "ERROR - Found   : $(find lib/libxml2* -regex '.*so\.[0-9]+')" >&2
+		termux_error_exit "Not proceeding with update."
 	fi
 }

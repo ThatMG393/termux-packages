@@ -5,6 +5,7 @@ TERMUX_PKG_LICENSE_FILE="license.md"
 TERMUX_PKG_MAINTAINER="@licy183"
 _CHROMIUM_VERSION=111.0.5563.146
 TERMUX_PKG_VERSION=0.0.3
+TERMUX_PKG_REVISION=1
 TERMUX_PKG_SRCURL=(https://github.com/fathyb/carbonyl/archive/refs/tags/v$TERMUX_PKG_VERSION.tar.gz
 					https://commondatastorage.googleapis.com/chromium-browser-official/chromium-$_CHROMIUM_VERSION.tar.xz)
 TERMUX_PKG_SHA256=(bf421b9498a084a7cf2238a574d37d31b498d3e271fdb3dcf466e7ed6c80013d
@@ -14,7 +15,7 @@ TERMUX_PKG_BUILD_DEPENDS="libnotify, libffi-static"
 TERMUX_PKG_ON_DEVICE_BUILD_NOT_SUPPORTED=true
 # Chromium doesn't support i686 on Linux.
 # Carbonyl donesn't support arm.
-TERMUX_PKG_BLACKLISTED_ARCHES="arm, i686"
+TERMUX_PKG_EXCLUDED_ARCHES="arm, i686"
 # Host tools, no need to run elf-cleaner
 TERMUX_PKG_NO_ELF_CLEANER=true
 

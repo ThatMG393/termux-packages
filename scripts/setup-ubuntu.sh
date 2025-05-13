@@ -220,13 +220,11 @@ PACKAGES+=" happy"
 PACKAGES+=" itstool"
 PACKAGES+=" libdbus-glib-1-dev-bin"
 PACKAGES+=" libgdk-pixbuf2.0-dev"
-PACKAGES+=" libwayland-dev"
 PACKAGES+=" python3-html5lib"
 PACKAGES+=" python3-xcbgen"
 PACKAGES+=" sassc"
 PACKAGES+=" texlive-extra-utils"
 PACKAGES+=" unifdef"
-PACKAGES+=" wayland-scanner++"
 PACKAGES+=" xfce4-dev-tools"
 PACKAGES+=" xfonts-utils"
 PACKAGES+=" xutils-dev"
@@ -297,6 +295,14 @@ PACKAGES+=" libwebpmux3 libwebpmux3:i386"
 # Required by chromium-based packages
 PACKAGES+=" libfontconfig1"
 PACKAGES+=" libfontconfig1:i386"
+PACKAGES+=" libcups2-dev"
+PACKAGES+=" libglib2.0-0t64:i386"
+PACKAGES+=" libexpat1:i386"
+
+# Required by code-oss
+PACKAGES+=" libxkbfile-dev"
+PACKAGES+=" libsecret-1-dev"
+PACKAGES+=" libkrb5-dev"
 
 # Required by wine-stable
 PACKAGES+=" libfreetype-dev:i386"
@@ -344,8 +350,14 @@ $SUDO locale-gen --purge en_US.UTF-8
 echo -e 'LANG="en_US.UTF-8"\nLANGUAGE="en_US:en"\n' | $SUDO tee -a /etc/default/locale
 
 . $(dirname "$(realpath "$0")")/properties.sh
-$SUDO mkdir -p $TERMUX_PREFIX
-$SUDO chown -R $(whoami) /data
+
+# Ownership of `TERMUX__PREFIX` must be fixed before `TERMUX_APP__DATA_DIR`
+# if its under it, otherwise `TERMUX__ROOTFS` will not have its ownership fixed.
+$SUDO mkdir -p "$TERMUX__PREFIX"
+$SUDO chown -R "$(whoami)" "$TERMUX__PREFIX"
+$SUDO mkdir -p "$TERMUX_APP__DATA_DIR"
+$SUDO chown -R "$(whoami)" "${TERMUX_APP__DATA_DIR%"${TERMUX_APP__DATA_DIR#/*/}"}" # Get `/path/` from `/path/to/app__data_dir`.
+
 $SUDO ln -sf /data/data/com.termux/files/usr/opt/aosp /system
 
 # Install newer pkg-config then what ubuntu provides, as the stock
